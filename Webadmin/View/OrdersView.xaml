@@ -1,0 +1,270 @@
+﻿<Window x:Class="Webadmin.View.OrdersView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Webadmin.View"
+        xmlns:viewModel="clr-namespace:Webadmin.ViewModel"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="TRUE"
+        MouseDown="Window_MouseDown"
+        Title="OrdersView" Height="600" Width="900">
+
+    <Window.DataContext>
+        <viewModel:OrdersViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <LinearGradientBrush x:Key="DatagridElement" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF230275" Offset="1"/>
+            <GradientStop Color="#FF430275" Offset="0.307"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF9c0000" Offset="1"/>
+            <GradientStop Color="#FFf20000" Offset="0.307"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonBackgroundHover" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFf20000" Offset="1"/>
+            <GradientStop Color="#FFf20000" Offset="0.307"/>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type Button}" x:Key="SameBackgroundButton">
+            <Setter Property="Background" Value="{StaticResource ButtonBackground}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonBackgroundHover}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
+
+    <Grid>
+        <Grid>
+            <Grid.Effect>
+                <BlurEffect Radius="30"/>
+            </Grid.Effect>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#000000" Offset="0"/>
+                        <GradientStop Color="#130021" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" 
+                       Text="AdminPanel" 
+                       Margin="10,0,0,0" 
+                       Foreground="White" 
+                       FontWeight="Bold"
+                       FontSize="20" 
+                       VerticalAlignment="Center"
+                        />
+
+                <Button Grid.Column="1"
+                    Content="&lt;-"
+                    Cursor="Hand"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding BackCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Grid.Column="2"
+                Content="-"
+                Cursor="Hand"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="White"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding MinimizeCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button 
+                Grid.Column="3"
+                Content="X"
+                Cursor="Hand"
+                FontWeight="Bold"
+                Background="Transparent"
+                Foreground="White"
+                BorderThickness="0"
+                Command="{Binding CloseCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+
+            <StackPanel Grid.Row="1"
+                Width="800"
+                Margin="0,20,0,0">
+                <TextBlock Text="Rendelések" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    FontSize="30" 
+                    Margin="10,0,0,10"
+                    TextAlignment="Center"
+                />
+                <TextBlock Text="Itt megtekintheted a rendeléseket, vagy törölheted őket" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    FontSize="20" 
+                    Margin="10,0,0,10"
+                    TextAlignment="Center"
+                />
+                <DataGrid ItemsSource="{Binding Orders}" 
+                AutoGenerateColumns="False" 
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False" 
+                CanUserReorderColumns="False" 
+                CanUserResizeColumns="False" 
+                CanUserResizeRows="False" 
+                CanUserSortColumns="False" 
+                IsReadOnly="True" 
+                SelectionMode="Single" 
+                SelectionUnit="FullRow" 
+                GridLinesVisibility="None" 
+                BorderThickness="0" 
+                Margin="10"
+                Height="400"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                ScrollViewer.CanContentScroll="False"
+                Background="Transparent">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridRow}">
+                                        <Border BorderBrush="Black" CornerRadius="10" BorderThickness="1" Margin="5" Background="{StaticResource DatagridElement}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="300"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0" Margin="10" Orientation="Vertical">
+                                                    <TextBlock Foreground="White" Text="Rendelés ID:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Rendelés ideje:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Termék neve:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Státusz:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Fizetendő:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Vásárló neve:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Email cím:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="Szállítási cím:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1" Margin="10" Orientation="Vertical">
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Id]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Date]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Title]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[State]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Price]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Name]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Email]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Foreground="White" Text="{Binding Path=[Address]}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                </StackPanel>
+                                                <Button 
+                                                    Grid.Column="2"
+                                                    Content="X"
+                                                    FontSize="20"
+                                                    FontWeight="Medium"
+                                                    FontFamily="Montserrat"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Command="{Binding DataContext.DeleteOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                    CommandParameter="{Binding}"
+                                                    Cursor="Hand"
+                                                    Foreground="White"
+                                                    Style="{StaticResource SameBackgroundButton}"
+                                                    Margin="10,10,10,10">
+                                                    <Button.Resources>
+                                                        <Style TargetType="{x:Type Border}">
+                                                            <Setter Property="CornerRadius" Value="10"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

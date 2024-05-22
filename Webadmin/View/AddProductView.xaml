@@ -1,0 +1,387 @@
+﻿<Window x:Class="Webadmin.View.AddProductView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Webadmin.View"
+        xmlns:viewModel="clr-namespace:Webadmin.ViewModel"
+        mc:Ignorable="d"
+         WindowStyle="None"
+         ResizeMode="NoResize"
+         WindowStartupLocation="CenterScreen"
+         Background="Transparent"
+         AllowsTransparency="TRUE"
+         MouseDown="Window_MouseDown"
+         Title="MainView" Height="600" Width="900">
+
+    <Window.DataContext>
+        <viewModel:AddProductViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <LinearGradientBrush x:Key="ButtonBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF230275" Offset="1"/>
+            <GradientStop Color="#FF430275" Offset="0.307"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonBackgroundHover" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF230275" Offset="1"/>
+            <GradientStop Color="#FF56237d" Offset="0.307"/>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type Button}" x:Key="SameBackgroundButton">
+            <Setter Property="Background" Value="{StaticResource ButtonBackground}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonBackgroundHover}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
+
+    <Grid>
+        <Grid>
+            <Grid.Effect>
+                <BlurEffect Radius="30"/>
+            </Grid.Effect>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#000000" Offset="0"/>
+                        <GradientStop Color="#130021" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" 
+                       Text="AdminPanel" 
+                       Margin="10,0,0,0" 
+                       Foreground="White" 
+                       FontWeight="Bold"
+                       FontSize="20" 
+                       VerticalAlignment="Center"
+                        />
+                <Button Grid.Column="1"
+                Content="-"
+                Cursor="Hand"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="White"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding MinimizeCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button 
+                Grid.Column="2"
+                Content="X"
+                Cursor="Hand"
+                FontWeight="Bold"
+                Background="Transparent"
+                Foreground="White"
+                BorderThickness="0"
+                Command="{Binding CloseCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <StackPanel 
+            Width="500"
+            Grid.Row="1"
+            Orientation="Vertical"
+            Margin="0,30,0,0">
+            <TextBlock 
+                Text="Termék hozzáadása"
+                Foreground="White"
+                FontSize="30"
+                FontWeight="Medium"
+                FontFamily="Montserrat"
+                HorizontalAlignment="Center"/>
+            <TextBlock Text="Cím"
+                Foreground="DarkGray"
+                FontSize="12"
+                FontWeight="Medium"
+                FontFamily="Montserrat"                             
+                Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize="20"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 HorizontalAlignment="Center"
+                 Width="400"
+                 Height="40"
+                 VerticalContentAlignment="Center"
+                 VerticalAlignment="Center"
+                 Background="Transparent"
+                 BorderBrush="White"
+                 BorderThickness="0"
+                 Foreground="White"
+                 CaretBrush="White"
+                 Cursor="IBeam"
+                />
+                
+            </Border>
+            <TextBlock Text="Ár"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+            <TextBlock Text="Leírás"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+            <TextBlock Text="Megjelenés éve"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding PublishYear, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+            <TextBlock Text="Értékelés"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding Rating, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+            <TextBlock Text="Kiadó"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding Publisher, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+            <TextBlock Text="Platform"
+    Foreground="DarkGray"
+    FontSize="12"
+    FontWeight="Medium"
+    FontFamily="Montserrat"                             
+    Margin="40,5,0,0"/>
+            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Margin="40,0,40,0">
+                <TextBox 
+     Text="{Binding Platform, UpdateSourceTrigger=PropertyChanged}"
+     FontSize="20"
+     FontWeight="Medium"
+     FontFamily="Montserrat"
+     HorizontalAlignment="Center"
+     Width="400"
+     Height="40"
+     VerticalContentAlignment="Center"
+     VerticalAlignment="Center"
+     Background="Transparent"
+     BorderBrush="White"
+     BorderThickness="0"
+     Foreground="White"
+     CaretBrush="White"
+     Cursor="IBeam"
+    />
+
+            </Border>
+
+            <TextBlock Text="{Binding ErrorMessage}"
+               Foreground="Red"
+               FontSize="20"
+               FontWeight="Medium"
+               FontFamily="Montserrat"
+               TextAlignment="Center"
+               Margin="0,5,0,0"
+            />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Grid.Column="0"
+                    Content="Mégse"
+                    Style="{StaticResource SameBackgroundButton}"
+                    Command="{Binding CancelCommand}"
+                    Margin="0,0,0,0"
+                    Width="150"
+                    Height="40"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Foreground="White"
+                    Cursor="Hand"
+                    >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button
+                    Grid.Column="1"
+                    Content="Hozzáadás"
+                    Style="{StaticResource SameBackgroundButton}"
+                    Command="{Binding AddProductCommand}"
+                    Margin="40,5,40,0"
+                    Width="150"
+                    Height="40"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Foreground="White"
+                    Cursor="Hand"
+                    >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
